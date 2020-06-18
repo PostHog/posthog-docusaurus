@@ -1,0 +1,21 @@
+{
+  "name": "posthog-docusaurus",
+  "version": "1.0.0",
+  "description": "🦔 PostHog plugin for Docusaurus",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=10.15.1"
+  },
+  "files": [
+    "src",
+    "LICENSE",
+    "README.md"
+  ]
+}
