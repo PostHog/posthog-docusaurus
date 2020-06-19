@@ -7,5 +7,12 @@ export default [
     output: { file: 'lib/index.js', format: 'cjs' },
     external: ['@docusaurus/ExecutionEnvironment'],
     plugins: [babel(), resolve()]
+  },
+  {
+    input: './src/posthog.js',
+    output: { file: 'lib/posthog.js', format: 'cjs' },
+    external: ['@docusaurus/ExecutionEnvironment'],
+    plugins: [babel(), resolve()]
   }
+
 ]
