@@ -26,7 +26,8 @@ module.exports = {
     posthog: {
       apiKey: "YOURAPIKEY",
       appUrl: "https://app.posthog.com",  // optional
-      enableInDevelopment: false  // optional
+      enableInDevelopment: false,  // optional
+      // other options are passed to posthog-js init as is
     }
   }
 };
