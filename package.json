@@ -51,6 +51,7 @@
     "prepublish": "npm run build"
   },
   "files": [
+    "lib",
     "src",
     "LICENSE",
     "README.md"
