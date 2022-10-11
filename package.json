@@ -45,7 +45,7 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -cw",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "lib",
