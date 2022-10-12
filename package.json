@@ -2,8 +2,7 @@
   "name": "posthog-docusaurus",
   "version": "1.0.5",
   "description": "🦔 PostHog plugin for Docusaurus v2",
-  "main": "lib/index.js",
-  "esnext": "src/index.js",
+  "main": "src/index.js",
   "publishConfig": {
     "access": "public"
   },
@@ -42,13 +41,8 @@
   "engines": {
     "node": ">=10.15.1"
   },
-  "scripts": {
-    "build": "rollup -c",
-    "watch": "rollup -cw",
-    "prepublishOnly": "npm run build"
-  },
+  "scripts": {},
   "files": [
-    "lib",
     "src",
     "LICENSE",
     "README.md"
