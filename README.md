@@ -7,13 +7,13 @@ Specifically, the [Docusaurus v2 integration](https://posthog.com/docs/integrati
 ## Installing the plugin
 
 ```bash
-yarn add posthog-docusaurus
+npm install posthog-docusaurus --save
 ```
 
 or
 
 ```bash
-npm install posthog-docusaurus --save
+yarn add posthog-docusaurus
 ```
 
 ## Configuring the plugin
@@ -21,15 +21,17 @@ npm install posthog-docusaurus --save
 ```javascript
 // docusaurus.config.js
 module.exports = {
-  plugins: ["posthog-docusaurus"],
-  themeConfig: {
-    posthog: {
-      apiKey: "YOURAPIKEY",
-      appUrl: "https://app.posthog.com",  // optional
-      enableInDevelopment: false,  // optional
-      // other options are passed to posthog-js init as is
-    }
-  }
+  plugins: [
+    [
+      "posthog-docusaurus",
+      {
+        apiKey: "YOURAPIKEY",
+        appUrl: "https://app.posthog.com", // optional
+        enableInDevelopment: false, // optional
+        // other options are passed to posthog-js init as is
+      },
+    ],
+  ],
 };
 ```
 
