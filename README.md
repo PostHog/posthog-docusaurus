@@ -1,8 +1,6 @@
-# PostHog plugin for Docusaurus v2
+# PostHog plugin for Docusaurus
 
-Please see the main [PostHog docs](https://posthog.com/docs).
-
-Specifically, the [Docusaurus v2 integration](https://posthog.com/docs/integrations/docusaurus-integration) details.
+Easily track and improve your Docusaurus site with PostHog. See [our docs on this plugin](https://posthog.com/docs/libraries/docusaurus) for more information.
 
 ## Installing the plugin
 
@@ -25,21 +23,17 @@ module.exports = {
     [
       "posthog-docusaurus",
       {
-        apiKey: "YOURAPIKEY",
-        appUrl: "https://app.posthog.com", // optional
+        apiKey: "<ph_project_api_key>",
+        appUrl: "<ph_client_api_host>", // optional, defaults to "https://us.i.posthog.com"
         enableInDevelopment: false, // optional
-        // other options are passed to posthog-js init as is
-        // NOTE: options are passed through JSON.stringify(), so functions (such as `sanitize_properties`) are not supported.
       },
     ],
   ],
 };
 ```
 
+> **Note:**You can pass additional PostHog [config options](/docs/libraries/js#config) to the plugin, but they are passed through `JSON.stringify()`, so functions (such as `sanitize_properties`) are not supported.
+
 ## Using the plugin
 
-That's it! You're ready to go!
-
-## Questions?
-
-### [Join our Slack community.](https://join.slack.com/t/posthogusers/shared_invite/enQtOTY0MzU5NjAwMDY3LTc2MWQ0OTZlNjhkODk3ZDI3NDVjMDE1YjgxY2I4ZjI4MzJhZmVmNjJkN2NmMGJmMzc2N2U3Yjc3ZjI5NGFlZDQ)
+Once running, this autocaptures pageviews, events, and session replay (if enabled) and enables usage of other PostHog features like surveys.
