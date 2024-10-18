@@ -6,8 +6,10 @@ export default (function () {
   }
 
   return {
-    onRouteUpdate() {
-      window.posthog.capture('$pageview');
+    onRouteUpdate({location, previousLocation}) {
+      if (location.pathname != previousLocation?.pathname) {
+        window.posthog.capture('$pageview');
+      }
     },
   };
 })();
