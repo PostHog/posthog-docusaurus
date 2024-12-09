@@ -6,7 +6,7 @@ export default (function () {
   }
 
   return {
-    onRouteUpdate({location, previousLocation}) {
+    onRouteUpdate({ location, previousLocation }) {
       if (location.pathname != previousLocation?.pathname) {
         window.posthog.capture('$pageview');
       }
