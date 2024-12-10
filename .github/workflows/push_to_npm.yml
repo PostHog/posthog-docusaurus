@@ -36,14 +36,14 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.POSTHOG_BOT_GITHUB_TOKEN }}
 
-      - name: Setup Yarn
-        uses: threeal/setup-yarn-action@v2.0.0
-
       - name: Set up Node 18
         uses: actions/setup-node@v4
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org
+
+      - name: Install yarn
+        run: npm install -g yarn
 
       - name: Install package.json dependencies with yarn
         run: yarn install
