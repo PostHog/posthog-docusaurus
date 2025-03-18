@@ -8,7 +8,9 @@ export default (function () {
   return {
     onRouteUpdate({ location, previousLocation }) {
       if (location.pathname != previousLocation?.pathname) {
-        window.posthog.capture('$pageview');
+        if (typeof window !== 'undefined' && typeof window.posthog !== 'undefined') {
+          window.posthog.capture('$pageview');
+        }
       }
     },
   };
