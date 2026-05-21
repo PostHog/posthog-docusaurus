@@ -18,11 +18,11 @@ jobs:
       is-new-version: ${{ steps.check-package-version.outputs.is-new-version }}
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
 
       - name: Check package version and detect an update
         id: check-package-version
-        uses: PostHog/check-package-version@v2
+        uses: PostHog/check-package-version@f540540cb12d45ec3c58d42dbf1d60070ed2d268 # v2.1.1
 
   release:
     name: Publish release if new version
@@ -34,12 +34,12 @@ jobs:
       PUBLISHED_VERSION: ${{ needs.check-package-version.outputs.published-version }}
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
 
       - name: Set up Node 18
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org
