@@ -7,7 +7,8 @@ export default (function () {
 
   return {
     onRouteUpdate({ location, previousLocation }) {
-      if (location.pathname != previousLocation?.pathname) {
+      // The SDK captures the initial pageview, including after consent is granted.
+      if (previousLocation && location.pathname != previousLocation.pathname) {
         if (typeof window !== 'undefined' && typeof window.posthog !== 'undefined') {
           window.posthog.capture('$pageview');
         }
