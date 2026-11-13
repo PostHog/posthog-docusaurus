@@ -1,4 +1,4 @@
-# Latest Docusaurus compatibility sample
+# Docusaurus compatibility sample
 
 Tests the local `posthog-docusaurus` source against Docusaurus **3.10.2** and React **19.3.1**, pinned in `package-lock.json`.
 
@@ -11,7 +11,7 @@ Tests the local `posthog-docusaurus` source against Docusaurus **3.10.2** and Re
 ## Run the compatibility checks
 
 ```sh
-cd examples/latest
+cd examples
 npm ci
 npm test
 ```

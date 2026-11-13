@@ -61,7 +61,7 @@ function decodeEvents(body) {
   return parsed.batch || (Array.isArray(parsed) ? parsed : [parsed]);
 }
 
-await test("latest Docusaurus compatibility with the real PostHog SDK", async (t) => {
+await test("Docusaurus compatibility with the real PostHog SDK", async (t) => {
   const events = [];
   const ingestionErrors = [];
   const assets = new Map();

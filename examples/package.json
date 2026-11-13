@@ -1,5 +1,5 @@
 {
-  "name": "posthog-docusaurus-latest-example",
+  "name": "posthog-docusaurus-example",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -11,7 +11,7 @@
   "dependencies": {
     "@docusaurus/core": "3.10.2",
     "@docusaurus/preset-classic": "3.10.2",
-    "posthog-docusaurus": "file:../..",
+    "posthog-docusaurus": "file:..",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },

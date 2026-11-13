@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer-core";
 
 const sample = fileURLToPath(new URL("..", import.meta.url));
-const repository = path.resolve(sample, "../..");
+const repository = path.resolve(sample, "..");
 const apiKey = process.env.POSTHOG_API_KEY;
 const apiHost = process.env.POSTHOG_API_HOST;
 if (!apiKey || !apiHost) throw new Error("Set POSTHOG_API_KEY and POSTHOG_API_HOST for the authorized project.");

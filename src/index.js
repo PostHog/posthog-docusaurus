@@ -38,6 +38,7 @@ module.exports = function (context, options) {
 
       const posthogInitOptions = {
         api_host: appUrl,
+        // The route hook captures pageviews, so SDK capture would duplicate them.
         capture_pageview: false,
         ...rest,
       };
