@@ -25,10 +25,14 @@ function initializationOptions(options = {}) {
   return context.posthog._i[0][1];
 }
 
-test("disables SDK pageviews by default so the route hook owns pageviews", () => {
-  assert.equal(initializationOptions().capture_pageview, false);
+test("preserves SDK pageview and pageleave defaults", () => {
+  const options = initializationOptions();
+  assert.equal(options.capture_pageview, undefined);
+  assert.equal(options.capture_pageleave, undefined);
 });
 
-test("preserves an explicit capture_pageview option", () => {
-  assert.equal(initializationOptions({ capture_pageview: true }).capture_pageview, true);
-});
+for (const capture_pageview of [false, true]) {
+  test(`preserves capture_pageview: ${capture_pageview}`, () => {
+    assert.equal(initializationOptions({ capture_pageview }).capture_pageview, capture_pageview);
+  });
+}

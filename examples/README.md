@@ -16,7 +16,7 @@ npm ci
 npm test
 ```
 
-The test builds the site, launches a separate headless Brave process with a temporary profile, and runs six checks:
+The test builds the site, launches a separate headless Brave process with a temporary profile, and runs eight checks:
 
 - Production static rendering, hydration, SDK initialization, and configuration forwarding.
 - Exactly one initial pageview.
@@ -24,14 +24,16 @@ The test builds the site, launches a separate headless Brave process with a temp
 - Client-side navigation without a document reload, with exactly one pageview containing the destination URL.
 - Analytics disabled by default in development.
 - Analytics enabled explicitly in development.
+- Default pageleave capture on unload.
+- The landing pageview after opt-in, without navigation.
 
 SDK assets are downloaded from PostHog. Configuration, feature flag responses, and ingestion are mocked locally. All non-local browser requests are blocked. No real project key is used and no events are sent to PostHog. Session replay and surveys are disabled in this test and are **not verified**.
 
 ## Pageview capture
 
-The plugin disables SDK automatic pageviews by default with `capture_pageview: false`. Its `onRouteUpdate` hook captures one initial pageview and one per pathname-changing client-side navigation.
+The SDK captures the initial pageview. The plugin's `onRouteUpdate` hook skips the initial load and captures subsequent pathname-changing client-side navigation. Keeping SDK defaults preserves pageleave capture and the landing pageview after consent is granted.
 
-All six checks pass with the default configuration (seven passing tests including the parent suite). Explicit SDK options remain supported, but enabling SDK automatic pageviews can cause duplicate pageviews alongside the route hook.
+All eight checks pass with the default configuration (nine passing tests including the parent suite). Explicit SDK options remain supported.
 
 The test downloads the live SDK on each run, so future SDK releases may change results.
 

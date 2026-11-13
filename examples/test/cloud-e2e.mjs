@@ -84,7 +84,6 @@ try {
     plugins: [[${JSON.stringify(path.join(repository, "src/index.js"))}, {
       apiKey: process.env.POSTHOG_API_KEY, appUrl: process.env.POSTHOG_API_HOST,
       enableInDevelopment: process.env.E2E_DEV_ENABLED === "true",
-      ...(process.env.E2E_WORKAROUND === "true" ? { capture_pageview: false } : {}),
       opt_out_useragent_filter: true, disable_compression: true, request_batching: false,
       capture_pageleave: false, capture_exceptions: false,
       disable_session_recording: true, disable_surveys: true,
@@ -123,13 +122,12 @@ export default function Second() { return <main><h1>posthoge2e second page</h1><
   }
 
   const scenarios = [
-    { id: "production-default", production: true, workaround: false, enabled: true },
-    { id: "production-workaround", production: true, workaround: true, enabled: true },
-    { id: "development-disabled", production: false, workaround: false, enabled: false },
-    { id: "development-enabled", production: false, workaround: true, enabled: true },
+    { id: "production-default", production: true, enabled: true },
+    { id: "development-disabled", production: false, enabled: false },
+    { id: "development-enabled", production: false, enabled: true },
   ];
   for (const scenario of scenarios.filter((item) => !process.env.POSTHOG_E2E_CASES || process.env.POSTHOG_E2E_CASES.split(",").includes(item.id))) {
-    const env = { E2E_WORKAROUND: String(scenario.workaround), E2E_DEV_ENABLED: String(!scenario.production && scenario.enabled) };
+    const env = { E2E_DEV_ENABLED: String(!scenario.production && scenario.enabled) };
     if (scenario.production) {
       const build = launch(["build"], env);
       const [code] = await once(build.child, "exit");

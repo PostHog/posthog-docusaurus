@@ -119,15 +119,19 @@ await test("Docusaurus compatibility with the real PostHog SDK", async (t) => {
     await browser.close();
     await rm(userDataDir, { recursive: true, force: true });
   });
-  const page = await browser.newPage();
   const browserErrors = [];
-  page.on("pageerror", (error) => browserErrors.push(error.message));
-  await page.setRequestInterception(true);
-  page.on("request", (req) => {
-    const url = new URL(req.url());
-    if (url.hostname === "127.0.0.1" || url.protocol === "data:") req.continue();
-    else req.abort();
-  });
+  async function newPage(context = browser) {
+    const page = await context.newPage();
+    page.on("pageerror", (error) => browserErrors.push(error.message));
+    await page.setRequestInterception(true);
+    page.on("request", (req) => {
+      const url = new URL(req.url());
+      if (url.hostname === "127.0.0.1" || url.protocol === "data:") req.continue();
+      else req.abort();
+    });
+    return page;
+  }
+  const page = await newPage();
 
   async function startSite(args, extraEnv = {}) {
     const reservation = createServer();
@@ -184,6 +188,14 @@ await test("Docusaurus compatibility with the real PostHog SDK", async (t) => {
     assert.equal(pageviews.length, 1);
     assert.equal(new URL(pageviews[0].properties.$current_url).pathname, "/second");
   });
+  await t.test("default pageleave capture is preserved on unload", async () => {
+    const before = events.length;
+    await page.goto("about:blank", { waitUntil: "networkidle0" });
+    await delay(500);
+    const pageleaves = events.slice(before).filter((event) => event.event === "$pageleave");
+    assert.equal(pageleaves.length, 1);
+    assert.equal(new URL(pageleaves[0].properties.$current_url).pathname, "/second");
+  });
   await stop(production.child);
 
   await t.test("development is disabled by default", async () => {
@@ -201,6 +213,36 @@ await test("Docusaurus compatibility with the real PostHog SDK", async (t) => {
     await page.waitForFunction(() => window.posthog?.__loaded);
     await waitUntil(() => events.slice(before).some((event) => event.event === "$pageview"), "development pageview");
     await stop(dev.child);
+  });
+
+  await t.test("opting in captures the landing pageview without navigation", async () => {
+    const consentBuild = docusaurus(["build"], { ...env, POSTHOG_TEST_OPT_OUT: "true" });
+    const [code] = await once(consentBuild.child, "exit");
+    assert.equal(code, 0, consentBuild.output());
+    const consent = await startSite(["serve"], { POSTHOG_TEST_OPT_OUT: "true" });
+    const context = await browser.createBrowserContext();
+    try {
+      const consentPage = await newPage(context);
+      await consentPage.goto(consent.siteUrl, { waitUntil: "networkidle0" });
+      await consentPage.waitForFunction(() => window.posthog?.__loaded);
+      assert.equal(await consentPage.evaluate(() => posthog.config.opt_out_capturing_by_default), true);
+      assert.equal(await consentPage.evaluate(() => posthog.has_opted_out_capturing()), true);
+      const landingPageviews = () => events.filter((event) =>
+        event.event === "$pageview" && event.properties.$current_url === consent.siteUrl + "/");
+      assert.equal(landingPageviews().length, 0);
+      await consentPage.evaluate(() => {
+        window.__consentSentinel = true;
+        posthog.opt_in_capturing();
+      });
+      await consentPage.waitForNetworkIdle({ idleTime: 500 });
+      assert.equal(await consentPage.evaluate(() => posthog.has_opted_out_capturing()), false);
+      assert.equal(await consentPage.evaluate(() => window.__consentSentinel), true);
+      assert.equal(consentPage.url(), consent.siteUrl + "/");
+      assert.equal(landingPageviews().length, 1);
+    } finally {
+      await context.close();
+      await stop(consent.child);
+    }
   });
 
   assert.deepEqual(browserErrors, []);
