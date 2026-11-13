@@ -36,7 +36,11 @@ module.exports = function (context, options) {
         return {};
       }
 
-      const posthogInitOptions = { api_host: appUrl, ...rest };
+      const posthogInitOptions = {
+        api_host: appUrl,
+        capture_pageview: false,
+        ...rest,
+      };
 
       return {
         headTags: [

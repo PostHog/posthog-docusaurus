@@ -37,3 +37,9 @@ module.exports = {
 ## Using the plugin
 
 Once running, this autocaptures pageviews, events, and session replay (if enabled) and enables usage of other PostHog features like surveys.
+
+## Docusaurus compatibility
+
+Verified with Docusaurus **3.10.2** and React **19.3.1** using the [sample and browser tests](examples/latest/README.md).
+
+The plugin sets `capture_pageview: false` by default and captures pageviews through Docusaurus's route hook, avoiding duplicate initial pageviews. All sample checks pass with the default configuration, including production builds, event capture, client-side navigation, and development-mode controls. Explicit SDK options are still supported; enabling SDK pageviews can duplicate the route hook's pageviews.

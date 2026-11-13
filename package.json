@@ -41,7 +41,9 @@
   "engines": {
     "node": ">=10.15.1"
   },
-  "scripts": {},
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
   "files": [
     "src",
     "LICENSE",
